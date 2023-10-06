@@ -12,13 +12,13 @@ diaDaSemana[4] = "Quinta-feira";
 diaDaSemana[5] = "Sexta-feira";
 diaDaSemana[6] = "Sabado";
 
-let diaPromocao = diaDaSemana[data.getDay()];
+let diaAtual = diaDaSemana[data.getDay()];
 
-console.log(diaPromocao);
+console.log(diaAtual);
 console.log(data.toLocaleTimeString("pt-BR"));
 
 
-function updateCountdown() {
+/*function updateCountdown() {
     const currentDate = new Date();
     const nextTuesday = new Date(currentDate);
 
@@ -33,16 +33,10 @@ function updateCountdown() {
     // Calcula a diferença em milissegundos entre as datas
     const timeRemaining = nextTuesday - currentDate;
 
-   if (timeRemaining <= 0) {
+    if (timeRemaining <= 0) {
         // Se a próxima terça-feira já passou, reinicie o cronômetro
         nextTuesday.setDate(nextTuesday.getDate() + 7);
     }
-
-    /*if(diaDaSemana[6] == true){
-
-        nextTuesday.setDate(nextTuesday.getDate() + 7);
-
-    }*/
 
     // Calcula a diferença em milissegundos novamente após a reinicialização
     const newTimeRemaining = nextTuesday - currentDate;
@@ -61,8 +55,8 @@ setInterval(updateCountdown, 1000);
 
 // Inicializa o cronômetro
 updateCountdown();
-
-function Duracao(){
+*/
+/*function Duracao(){
 // Define a data atual
 const currentDate = new Date();
 
@@ -79,4 +73,4 @@ console.log(`Faltam ${hoursRemaining} horas até 10 de outubro de 2023.`);
 
 }
 
-Duracao();
+Duracao();*/
