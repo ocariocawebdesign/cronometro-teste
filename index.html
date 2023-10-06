@@ -1,104 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      .container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-      }
-
-      .card {
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin: 10px;
-        width: calc(33.33% - 20px); /* Para criar 3 colunas com margens */
-        box-sizing: border-box;
-      }
-
-      iframe {
-        width: 100%;
-        height: 200px;
-      }
-    </style>
-  </head>
-  <body>
-    <h1 id="countdown"></h1>
-
-    <div class="container" id="card-container"></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronômetro Decrescente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-4">
+        <br/>
+        Cronômetro de teste
+        <h1 style="background-color: red; padding: 2rem; color:#FFFFFF;" class="text-center " id="countdown"></h1>
+    </div>
 
     <script>
-      // Simulação de dados da API (substitua isso com sua chamada real à API)
-      const apiData = [
-        {
-          userId: "01",
-          nome: "Eduardo Silva",
-          cursoRealizado: "Perícia e Avaliação de Imóveis",
-          videoUrl: "https://player.vimeo.com/video/821425616?badge=0&amp;autopause=0&amp;quality_selector=1&amp;progress_bar=1&amp;player_id=0&amp;app_id=58479",
-        },
+        function updateCountdown() {
+            const currentDate = new Date();
+            const currentDay = currentDate.getDay();
+            const currentHour = currentDate.getHours();
+            const currentMinute = currentDate.getMinutes();
+            const currentSecond = currentDate.getSeconds();
 
-        {
-          userId: "02",
-          nome: "Silvia",
-          cursoRealizado: "Perícia e Avaliação de Imóveis",
-          videoUrl:"https://player.vimeo.com/video/821425616?badge=0&amp;autopause=0&amp;quality_selector=1&amp;progress_bar=1&amp;player_id=0&amp;app_id=58479",
-        },
+            // Define o dia da semana para terça-feira (terça-feira é 2 no JavaScript, onde domingo é 0)
+            const tuesday = 2;
 
-        {
-          userId: "03",
-          nome: "Cintia Cruz",
-          cursoRealizado: "Assistente Técnico Judicial",
-          videoUrl: "https://player.vimeo.com/video/821425616?badge=0&amp;autopause=0&amp;quality_selector=1&amp;progress_bar=1&amp;player_id=0&amp;app_id=58479",
-        },
+            // Define a hora de reinício para 12:40:00
+            const restartHour = 12;
+            const restartMinute = 40;
+            const restartSecond = 0;
 
-        {
-          userId: "04",
-          nome: "Felipe Souza",
-          cursoRealizado: "Assistente Técnico Judicial",
-          videoUrl: "https://player.vimeo.com/video/821425616?badge=0&amp;autopause=0&amp;quality_selector=1&amp;progress_bar=1&amp;player_id=0&amp;app_id=58479",
-        },
+            if (currentDay === tuesday && currentHour === restartHour && currentMinute === restartMinute && currentSecond === restartSecond) {
+                // Se for terça-feira às 12:40:00, reinicie o cronômetro
+                clearInterval(interval);
+                startCountdown();
+                return;
+            }
 
-        {
-          userId: "05",
-          nome: "Carlos Alves",
-          cursoRealizado: "Assistente Técnico Judicial",
-          videoUrl: "https://player.vimeo.com/video/821425616?badge=0&amp;autopause=0&amp;quality_selector=1&amp;progress_bar=1&amp;player_id=0&amp;app_id=58479",
-        },
+            // Calcula o tempo restante até a próxima sexta-feira às 12:40:00
+            let timeRemaining = 0;
+            if (currentDay < 5 || (currentDay === 5 && (currentHour < restartHour || (currentHour === restartHour && currentMinute < restartMinute)))) {
+                // Se for antes de sexta-feira às 12:40:00, calcula o tempo restante no mesmo dia
+                timeRemaining = (restartHour - currentHour) * 3600 +
+                    (restartMinute - currentMinute) * 60 +
+                    (restartSecond - currentSecond);
+            } else {
+                // Se for depois de sexta-feira às 12:40:00, calcula o tempo restante até a próxima terça-feira
+                const daysUntilTuesday = (tuesday + 7 - currentDay) % 7;
+                timeRemaining = (daysUntilTuesday * 24 + restartHour - currentHour) * 3600 +
+                    (restartMinute - currentMinute) * 60 +
+                    (restartSecond - currentSecond);
+            }
 
-        {
-          userId: "06",
-          nome: "Patrícia Silva",
-          cursoRealizado: "Perícia Ambiental",
-          videoUrl: "https://player.vimeo.com/video/821425616?badge=0&amp;autopause=0&amp;quality_selector=1&amp;progress_bar=1&amp;player_id=0&amp;app_id=58479",
-        },
-        // Adicione mais dados conforme necessário
-      ];
+            // Converte o tempo restante em horas, minutos e segundos
+            const hours = Math.floor(timeRemaining / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = Math.floor(timeRemaining % 60);
 
-      // Selecione o container dos cards
-      const cardContainer = document.getElementById("card-container");
+            // Exibe o tempo restante no elemento com id "countdown"
+            document.getElementById("countdown").textContent = ` Tempo restante: ${hours}h ${minutes}m ${seconds}s`;
+        }
 
-      // Itere sobre os dados da API usando map e crie os cards
-      const cards = apiData.map((data) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-                <iframe src="${data.videoUrl}" frameborder="0" allowfullscreen></iframe>
-                <h2>${data.nome}</h2>
-                <p>${data.cursoRealizado}</p>
-            `;
-        return card;
-      });
+        function startCountdown() {
+            // Atualiza o cronômetro a cada segundo
+            interval = setInterval(updateCountdown, 1000);
+        }
 
-      // Adicione os cards ao container
-      cards.forEach((card) => {
-        cardContainer.appendChild(card);
-      });
+        // Inicializa o cronômetro
+        startCountdown();
     </script>
-
-    
-    <script src="./main.js"></script>
-  </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
 </html>
