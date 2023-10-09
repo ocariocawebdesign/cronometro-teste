@@ -28,25 +28,33 @@
 
     <script>
       function updateCountdown() {
-        const currentDate = new Date();
-        const currentDay = currentDate.getDay();
-        const currentHour = currentDate.getHours();
-        const currentMinute = currentDate.getMinutes();
-        const currentSecond = currentDate.getSeconds();
+        /*Array diasDaSemana = [
+  "Domingo", = 0
+  "Segunda-feira", 1
+  "Terça-feira", = 2
+  "Quarta-feira", = 3
+  "Quinta-feira", = 4
+  "Sexta-feira", = 5
+  "Sábado", = 6
+];*/
 
-        // Define o dia da semana para terça-feira (terça-feira é 2 no JavaScript, onde domingo é 0)
-        const tuesday = 2;
+        const dataAtual = new Date();
+        //console.log(dataAtual);
+        const diaAtual = dataAtual.getDay();
+        const horaAtual = dataAtual.getHours();
+        const minutoAtual = dataAtual.getMinutes();
+        const segundoAtual = dataAtual.getSeconds();
 
-        // Define a hora de reinício para 20:00:00
-        const restartHour = 20;
-        const restartMinute = 0;
-        const restartSecond = 0;
+        const terca = 2; // Representa terça-feira no indice
+        const resetarHora = 20;
+        const resetarMinuto = 0;
+        const resetarSegundo = 0;
 
         if (
-          currentDay === tuesday &&
-          currentHour === restartHour &&
-          currentMinute === restartMinute &&
-          currentSecond === restartSecond
+          diaAtual === terca &&
+          horaAtual === resetarHora &&
+          minutoAtual === resetarMinuto &&
+          segundoAtual === resetarSegundo
         ) {
           // Se for terça-feira às 20:00:00, reinicie o cronômetro
           clearInterval(interval);
@@ -57,99 +65,90 @@
         // Calcula o tempo restante até a próxima terça-feira às 20:00:00
         let timeRemaining = 0;
         if (
-          currentDay < tuesday ||
-          (currentDay === tuesday &&
-            (currentHour < restartHour ||
-              (currentHour === restartHour && currentMinute < restartMinute)))
+          diaAtual < terca ||
+          (diaAtual === terca &&
+            (horaAtual < resetarHora ||
+              (horaAtual === resetarHora && minutoAtual < resetarMinuto)))
         ) {
-          // Se for antes de terça-feira às 20:00:00, calcula o tempo restante no mesmo dia
           timeRemaining =
-            (restartHour - currentHour) * 3600 +
-            (restartMinute - currentMinute) * 60 +
-            (restartSecond - currentSecond);
+            ((terca - diaAtual + 7) % 7) * 24 * 3600 +
+            (resetarHora - horaAtual) * 3600 +
+            (resetarMinuto - minutoAtual) * 60 +
+            (resetarSegundo - segundoAtual);
         } else {
-          // Se for depois de terça-feira às 20:00:00, calcula o tempo restante até a próxima terça-feira
-          const daysUntilTuesday = (tuesday + 7 - currentDay) % 7;
           timeRemaining =
-            (daysUntilTuesday * 24 + restartHour - currentHour) * 3600 +
-            (restartMinute - currentMinute) * 60 +
-            (restartSecond - currentSecond);
+            ((terca - diaAtual + 7) % 7) * 24 * 3600 +
+            (resetarHora - horaAtual) * 3600 +
+            (resetarMinuto - minutoAtual) * 60 +
+            (resetarSegundo - segundoAtual);
         }
 
-        // Converte o tempo restante em dias, horas, minutos e segundos
-        const days = Math.floor(timeRemaining / (3600 * 24));
-        const hours = Math.floor((timeRemaining % (3600 * 24)) / 3600);
-        const minutes = Math.floor((timeRemaining % 3600) / 60);
-        const seconds = Math.floor(timeRemaining % 60);
+        const dias = Math.floor(timeRemaining / (3600 * 24));
+        const horas = Math.floor((timeRemaining % (3600 * 24)) / 3600);
+        const minutos = Math.floor((timeRemaining % 3600) / 60);
+        const segundos = Math.floor(timeRemaining % 60);
 
-        // Exibe o tempo restante no elemento com id "countdown"
         document.getElementById(
           "countdown"
         ).innerHTML = `<div class="" style="display:flex; width:100%; justify-content:center; align-items: flex-start;">
-      <div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
+<div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
 display: block; font-size:2rem; 
-">${days}</span> 
-            <span style="white-space: nowrap;
-                word-break: break-word;
-                margin-top: 0;
-                font-weight: 600;
-                font-size: 0.8rem;
-                text-transform: uppercase;
-                color: rgba(0,0,0,1);">
-                   DIAS </span>
-        </div>
-      
-      <div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
+">${dias}</span> 
+      <span style="white-space: nowrap;
+          word-break: break-word;
+          margin-top: 0;
+          font-weight: 600;
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          color: rgba(0,0,0,1);">
+             DIAS </span>
+  </div>
+
+<div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
 display: block; font-size:2rem;
-">${hours} </span>
-        <span
-        style="white-space: nowrap;
-                word-break: break-word;
-                margin-top: 0;
-                font-weight: 600;
-                font-size: 0.8rem;
-                text-transform: uppercase;
-                color: rgba(0,0,0,1);">HORAS</span> 
-        </div>
-      
-        <div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
+">${horas} </span>
+  <span
+  style="white-space: nowrap;
+          word-break: break-word;
+          margin-top: 0;
+          font-weight: 600;
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          color: rgba(0,0,0,1);">HORAS</span> 
+  </div>
+
+  <div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
 display: block; font-size:2rem;
-">${minutes}</span>
-          <span style="white-space: nowrap;
-                word-break: break-word;
-                margin-top: 0;
-                font-weight: 600;
-                font-size: 0.8rem;
-                text-transform: uppercase;
-                color: rgba(0,0,0,1);"> MINUTOS </span>
-          </div>
-      
-          <div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
+">${minutos}</span>
+    <span style="white-space: nowrap;
+          word-break: break-word;
+          margin-top: 0;
+          font-weight: 600;
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          color: rgba(0,0,0,1);"> MINUTOS </span>
+    </div>
+
+    <div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
 display: block; font-size:2rem;
-">${seconds}</span>
-             <span style="white-space: nowrap;
-                word-break: break-word;
-                margin-top: 0;
-                font-weight: 600;
-                font-size: 0.8rem;
-                text-transform: uppercase;
-                color: rgba(0,0,0,1);">SEGUNDOS</span>
-             </div>
-      </div>`;
+">${segundos}</span>
+       <span style="white-space: nowrap;
+          word-break: break-word;
+          margin-top: 0;
+          font-weight: 600;
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          color: rgba(0,0,0,1);">SEGUNDOS</span>
+       </div>
+</div>`;
       }
+
       function startCountdown() {
-        // Atualiza o cronômetro a cada segundo
         interval = setInterval(updateCountdown, 1000);
       }
 
-      // Inicializa o cronômetro
       startCountdown();
     </script>
-    <script src="./main.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      crossorigin="anonymous"
-    ></script>
+    <!--<script src="./cronometro.js"></script>-->
   </body>
 </html>

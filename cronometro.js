@@ -16,7 +16,7 @@ function updateCountdown() {
   ];*/
 
   const dataAtual = new Date();
-  console.log(dataAtual);
+ //console.log(dataAtual);
   const diaAtual = dataAtual.getDay();
   const horaAtual = dataAtual.getHours();
   const minutoAtual = dataAtual.getMinutes();
@@ -67,7 +67,57 @@ function updateCountdown() {
 
   document.getElementById(
     "countdown"
-  ).innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+  ).innerHTML = `<div class="" style="display:flex; width:100%; justify-content:center; align-items: flex-start;">
+  <div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
+  display: block; font-size:2rem; 
+  ">${dias}</span> 
+        <span style="white-space: nowrap;
+            word-break: break-word;
+            margin-top: 0;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: rgba(0,0,0,1);">
+               DIAS </span>
+    </div>
+  
+  <div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
+  display: block; font-size:2rem;
+  ">${horas} </span>
+    <span
+    style="white-space: nowrap;
+            word-break: break-word;
+            margin-top: 0;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: rgba(0,0,0,1);">HORAS</span> 
+    </div>
+  
+    <div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
+  display: block; font-size:2rem;
+  ">${minutos}</span>
+      <span style="white-space: nowrap;
+            word-break: break-word;
+            margin-top: 0;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: rgba(0,0,0,1);"> MINUTOS </span>
+      </div>
+  
+      <div style="display:flex; justify-content:center; flex-direction:column; margin-right:2.8rem"><span style=" text-align: center;
+  display: block; font-size:2rem;
+  ">${segundos}</span>
+         <span style="white-space: nowrap;
+            word-break: break-word;
+            margin-top: 0;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: rgba(0,0,0,1);">SEGUNDOS</span>
+         </div>
+  </div>`;
 }
 
 function startCountdown() {
